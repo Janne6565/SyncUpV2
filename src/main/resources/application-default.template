@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: [database_url]
+    username: [database_user]
+    password: [database_password]
+
+application:
+  security:
+    jwt:
+      secret-key: [hex_256bit_encryption_key]
