@@ -2,6 +2,7 @@ package com.janne.syncupv2.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e, WebRequest request) {
         Map<String, String> errors = e.getBindingResult().getFieldErrors().stream()
                 .collect(Collectors.toMap(
-                        fieldError -> fieldError.getField(),
+                        FieldError::getField,
                         fieldError -> {
                             String defaultMessage = fieldError.getDefaultMessage();
                             return defaultMessage != null ? defaultMessage : "No error message available";
