@@ -1,5 +1,6 @@
 version: "1.0"
 profile:
   name: qodana.starter
+linter: jetbrains/qodana-jvm-community:2024.1
 include:
   - name: NullableProblems
