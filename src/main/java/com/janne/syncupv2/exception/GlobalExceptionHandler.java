@@ -36,10 +36,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e, WebRequest request) {
         Map<String, String> errors = e.getBindingResult().getFieldErrors().stream()
                 .collect(Collectors.toMap(
-                        fieldError -> {
-                            String field = fieldError.getField();
-                            return field != null ? field : "unknownField";
-                        },
+                        fieldError -> fieldError.getField(),
                         fieldError -> {
                             String defaultMessage = fieldError.getDefaultMessage();
                             return defaultMessage != null ? defaultMessage : "No error message available";
