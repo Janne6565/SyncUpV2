@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class RegisterUserRequestDto {
     @NotBlank(message = "Username is mandatory")
     @Size(min = 4, message = "Username should at least be 4 characters long")
-    private String username;
+    private String name;
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password should at least be 8 characters long")
     private String password;
