@@ -1,0 +1,14 @@
+name: SyncUpV2
+jobs:
+  Job1:
+    name: Test
+    steps:
+      - type: maven
+        goals: clean test
+        maven-version: bundled_3_9
+        is-incremental: 'true'
+        docker-image: maven:3.9.8-eclipse-temurin-22
+    runs-on: Linux-Medium
+    files-publication:
+      - ''
+    parallelism: 5
