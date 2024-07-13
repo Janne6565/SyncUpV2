@@ -1,0 +1,20 @@
+name: maven-test.yml
+on:
+  push:
+    branches:
+      - master
+      - main
+      - 'releases/*'
+      - 'feature/*'
+jobs:
+  test:
+    runs-on: maven:3.9.8-eclipse-temurin-22
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: mvn-clean-package
+        run: |
+          mvn clean test
