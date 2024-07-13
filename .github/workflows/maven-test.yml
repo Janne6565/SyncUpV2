@@ -7,8 +7,8 @@ on:
       - 'releases/*'
       - 'feature/*'
 jobs:
-  test:
-    runs-on: maven:3.9.8-eclipse-temurin-22
+  mvn-clean-test:
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
@@ -16,5 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: mvn-clean-package
+        uses: maven:3.9.8-eclipse-temurin-22
         run: |
           mvn clean test
