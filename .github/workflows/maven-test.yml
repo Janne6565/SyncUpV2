@@ -1,4 +1,4 @@
-name: maven-test.yml
+name: Maven Unit Test
 on:
   push:
     branches:
