@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
                 .error(e.getMessage())
                 .status(HttpStatus.BAD_REQUEST.value())
                 .timestamp(LocalDateTime.now())
-                .message(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message("Email address already registered")
                 .build();
 
         return ResponseEntity.badRequest().body(errorResponse);
@@ -55,8 +55,25 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
+    @ExceptionHandler(RequestException.class)
+    public ResponseEntity<ErrorResponse> handleRequestException(RequestException e, WebRequest request) {
+        return ResponseEntity.status(e.getStatus()).body(ErrorResponse.builder()
+                .error(e.getErrorObject())
+                .path(getPath(request))
+                .status(e.getStatus())
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build());
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception e) {
-        return ResponseEntity.internalServerError().body(e.getMessage());
+    public ResponseEntity<ErrorResponse> handleException(Exception e, WebRequest request) {
+        return ResponseEntity.internalServerError().body(ErrorResponse.builder()
+                .status(501)
+                .message("Internal Server Error")
+                .timestamp(LocalDateTime.now())
+                .path(getPath(request))
+                .error("")
+                .build());
     }
 }

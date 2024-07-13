@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1")
-public abstract class ApiController {
+public abstract class V1ApiController {
 
 }

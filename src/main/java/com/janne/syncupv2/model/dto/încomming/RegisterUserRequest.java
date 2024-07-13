@@ -1,4 +1,4 @@
-package com.janne.syncupv2.model.dto;
+package com.janne.syncupv2.model.dto.încomming;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class RegisterUserRequestDto {
-    @NotBlank(message = "Username is mandatory")
-    @Size(min = 4, message = "Username should at least be 4 characters long")
-    private String name;
+public class RegisterUserRequest {
+    @NotBlank(message = "Usertag is mandatory")
+    @Size(min = 4, message = "Usertag should at least be 4 characters long")
+    private String usertag;
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password should at least be 8 characters long")
     private String password;
