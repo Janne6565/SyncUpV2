@@ -4,4 +4,3 @@ profile:
 projectJDK: 3.9.8-eclipse-temurin-22
 include:
   - name: NullableProblems
-fixesStrategy: cleanup
