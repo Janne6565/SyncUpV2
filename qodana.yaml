@@ -3,6 +3,5 @@ profile:
   name: qodana.starter
 projectJDK: corretto-21
 include:
-  - name: NullableProblems
   - name: UnnecessaryModifier
   - name: LombokGetterMayBeUsed
