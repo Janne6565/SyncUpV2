@@ -1,7 +1,7 @@
 package com.janne.syncupv2.auditing;
 
 import com.janne.syncupv2.model.user.User;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

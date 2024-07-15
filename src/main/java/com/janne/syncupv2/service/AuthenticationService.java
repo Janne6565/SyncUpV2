@@ -38,21 +38,21 @@ public class AuthenticationService implements LogoutHandler {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse registerUser(RegisterUserRequest request) {
-        if (userRepository.countByEmail(request.getEmail().toLowerCase()) > 0) {
+    public AuthenticationResponse registerUser(final RegisterUserRequest request) {
+        if (0 < userRepository.countByEmail(request.getEmail().toLowerCase())) {
             throw new DuplicateEmailException(request.getEmail());
         }
 
-        User user = User.builder()
+        final User user = User.builder()
                 .usertag(request.getUsertag())
                 .email(request.getEmail().toLowerCase())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(this.passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.USER)
                 .build();
-        User savedUser = userRepository.save(user);
-        String jwtToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
+        User savedUser = this.userRepository.save(user);
+        String jwtToken = this.jwtService.generateToken(user);
+        String refreshToken = this.jwtService.generateRefreshToken(user);
+        this.saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -60,27 +60,27 @@ public class AuthenticationService implements LogoutHandler {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationUserRequest request) {
+    public AuthenticationResponse authenticate(final AuthenticationUserRequest request) {
         try {
-            authenticationManager.authenticate(
+            this.authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getEmail().toLowerCase(),
                             request.getPassword()
                     )
             );
-        } catch (BadCredentialsException e) {
+        } catch (final BadCredentialsException e) {
             throw RequestException.builder()
                     .errorObject("Bad Credentials")
                     .status(HttpStatus.UNAUTHORIZED.value())
                     .message("No matching user found")
                     .build();
         }
-        User user = userRepository.findByEmail(request.getEmail().toLowerCase())
+        final User user = this.userRepository.findByEmail(request.getEmail().toLowerCase())
                 .orElseThrow();
-        String jwtToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        final String jwtToken = this.jwtService.generateToken(user);
+        final String refreshToken = this.jwtService.generateRefreshToken(user);
+        this.revokeAllUserTokens(user);
+        this.saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -88,48 +88,48 @@ public class AuthenticationService implements LogoutHandler {
                 .build();
     }
 
-    private void saveUserToken(User user, String jwtToken) {
-        Token token = Token.builder()
+    private void saveUserToken(final User user, final String jwtToken) {
+        final Token token = Token.builder()
                 .user(user)
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)
                 .build();
-        tokenRepository.save(token);
+        this.tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
-        Collection<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+    private void revokeAllUserTokens(final User user) {
+        final Collection<Token> validUserTokens = this.tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);
         });
-        tokenRepository.saveAll(validUserTokens);
+        this.tokenRepository.saveAll(validUserTokens);
     }
 
     public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
+            final HttpServletRequest request,
+            final HttpServletResponse response
     ) throws IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String userEmail;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String refreshToken;
+        String userEmail;
+        if (null == authHeader || !authHeader.startsWith("Bearer ")) {
             return;
         }
         refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail != null) {
-            var user = this.userRepository.findByEmail(userEmail)
+        userEmail = this.jwtService.extractUsername(refreshToken);
+        if (null != userEmail) {
+            final var user = userRepository.findByEmail(userEmail)
                     .orElseThrow();
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
-                var authResponse = AuthenticationResponse.builder()
+            if (this.jwtService.isTokenValid(refreshToken, user)) {
+                final var accessToken = this.jwtService.generateToken(user);
+                this.revokeAllUserTokens(user);
+                this.saveUserToken(user, accessToken);
+                final var authResponse = AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
@@ -139,19 +139,19 @@ public class AuthenticationService implements LogoutHandler {
     }
 
     @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+    public void logout(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) {
+        String authHeader = request.getHeader("Authorization");
+        String jwt;
+        if (null == authHeader || !authHeader.startsWith("Bearer ")) {
             return;
         }
         jwt = authHeader.substring(7);
-        var storedToken = tokenRepository.findByToken(jwt)
+        final var storedToken = this.tokenRepository.findByToken(jwt)
                 .orElse(null);
-        if (storedToken != null) {
+        if (null != storedToken) {
             storedToken.setExpired(true);
             storedToken.setRevoked(true);
-            tokenRepository.save(storedToken);
+            this.tokenRepository.save(storedToken);
             SecurityContextHolder.clearContext();
         }
     }
