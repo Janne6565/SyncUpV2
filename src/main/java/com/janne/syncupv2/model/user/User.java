@@ -3,6 +3,7 @@ package com.janne.syncupv2.model.user;
 import com.janne.syncupv2.auth.token.Token;
 import jakarta.persistence.*;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,12 +21,12 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
-    @NonNull
     @Column(unique = true)
+    @NotNull
     private String email;
-    @NonNull
+    @NotNull
     private String password;
-    @NonNull
+    @NotNull
     private String usertag;
     @Enumerated(EnumType.STRING)
     private UserRole role;
