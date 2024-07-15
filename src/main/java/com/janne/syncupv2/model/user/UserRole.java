@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import static com.janne.syncupv2.model.user.Permission.*;
 
+@Getter
 @RequiredArgsConstructor
 public enum UserRole {
     USER(Collections.emptySet()),
@@ -36,7 +37,6 @@ public enum UserRole {
             )
     );
 
-    @Getter
     private final Set<Permission> permissions;
 
     public List<SimpleGrantedAuthority> getAuthorities() {
