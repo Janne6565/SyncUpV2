@@ -7,15 +7,13 @@ spring:
     username: sa
     password: password
   jpa:
-    hibernate:
-      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false
+    hibernate:
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
 application:
   security:
     jwt:

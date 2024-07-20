@@ -1,4 +1,4 @@
-package com.janne.syncupv2.model.dto.încomming;
+package com.janne.syncupv2.model.dto.încomming.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

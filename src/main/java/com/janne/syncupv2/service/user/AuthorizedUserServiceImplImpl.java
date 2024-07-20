@@ -1,13 +1,12 @@
 package com.janne.syncupv2.service.user;
 
-import com.janne.syncupv2.repository.TokenRepository;
-import org.modelmapper.ModelMapper;
 import com.janne.syncupv2.model.dto.outgoing.PrivateUserDto;
 import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 

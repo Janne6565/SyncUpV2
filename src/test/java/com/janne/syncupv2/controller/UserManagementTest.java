@@ -5,7 +5,7 @@ import com.janne.syncupv2.Application;
 import com.janne.syncupv2.model.dto.outgoing.AuthenticationResponse;
 import com.janne.syncupv2.model.dto.outgoing.PrivateUserDto;
 import com.janne.syncupv2.model.dto.outgoing.PublicUserDto;
-import com.janne.syncupv2.model.dto.încomming.RegisterUserRequest;
+import com.janne.syncupv2.model.dto.încomming.requests.RegisterUserRequest;
 import com.janne.syncupv2.model.user.UserRole;
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
