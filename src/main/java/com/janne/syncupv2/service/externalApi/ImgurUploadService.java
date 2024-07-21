@@ -1,6 +1,8 @@
-package com.janne.syncupv2.service.images;
+package com.janne.syncupv2.service.externalApi;
 
 import com.janne.syncupv2.exception.RequestException;
+import com.janne.syncupv2.model.jpa.util.ScaledImage;
+import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.Base64;
 
 @Service
 @RequiredArgsConstructor
-public class ImgurImageUploadService implements ImageUploadService {
+public class ImgurUploadService implements ImageUploadService {
     private final WebClient webClient;
     private final ImgurConfig imgurConfig;
 
@@ -64,4 +66,14 @@ public class ImgurImageUploadService implements ImageUploadService {
         }
     }
 
+    @Override
+    public ScaledImage uploadScaledImages(BufferedImage image) {
+        String fullScaleUrl = uploadImage(image, 1.0);
+        String thumbnailUrl = uploadImage(image, 0.4);
+
+        return ScaledImage.builder()
+                .fullScaleUrl(fullScaleUrl)
+                .thumbnailUrl(thumbnailUrl)
+                .build();
+    }
 }

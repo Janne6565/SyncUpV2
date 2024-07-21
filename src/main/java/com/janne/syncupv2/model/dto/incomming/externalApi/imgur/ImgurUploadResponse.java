@@ -1,4 +1,4 @@
-package com.janne.syncupv2.model.dto.încomming.imgur;
+package com.janne.syncupv2.model.dto.incomming.externalApi.imgur;
 
 import lombok.Data;
 

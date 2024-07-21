@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-public class TestController implements UnauthorizedController {
+public class TestController {
 
     private final ImageUploadService imageUploadService;
 

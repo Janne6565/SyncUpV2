@@ -2,7 +2,7 @@ package com.janne.syncupv2.auth;
 
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
-import com.janne.syncupv2.service.JwtService;
+import com.janne.syncupv2.service.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

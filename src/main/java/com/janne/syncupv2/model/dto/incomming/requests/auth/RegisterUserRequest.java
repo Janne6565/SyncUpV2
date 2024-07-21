@@ -1,4 +1,4 @@
-package com.janne.syncupv2.model.dto.încomming.requests;
+package com.janne.syncupv2.model.dto.incomming.requests.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

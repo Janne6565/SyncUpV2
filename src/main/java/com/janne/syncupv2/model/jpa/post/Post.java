@@ -1,6 +1,6 @@
-package com.janne.syncupv2.model.post;
+package com.janne.syncupv2.model.jpa.post;
 
-import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.model.jpa.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;

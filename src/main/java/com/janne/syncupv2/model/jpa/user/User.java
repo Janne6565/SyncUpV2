@@ -1,7 +1,7 @@
-package com.janne.syncupv2.model.user;
+package com.janne.syncupv2.model.jpa.user;
 
 import com.janne.syncupv2.auth.token.Token;
-import com.janne.syncupv2.model.post.Post;
+import com.janne.syncupv2.model.jpa.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;

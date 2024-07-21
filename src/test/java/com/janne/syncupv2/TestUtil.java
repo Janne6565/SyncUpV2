@@ -1,7 +1,7 @@
 package com.janne.syncupv2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.janne.syncupv2.model.dto.încomming.requests.RegisterUserRequest;
+import com.janne.syncupv2.model.dto.incomming.requests.auth.RegisterUserRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;

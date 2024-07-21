@@ -1,7 +1,7 @@
 package com.janne.syncupv2.service.user;
 
-import com.janne.syncupv2.model.dto.outgoing.PrivateUserDto;
-import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.model.dto.outgoing.user.PrivateUserDto;
+import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

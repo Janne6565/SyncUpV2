@@ -1,8 +1,9 @@
 package com.janne.syncupv2.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.janne.syncupv2.service.externalApi.ImgurConfig;
+import com.janne.syncupv2.service.externalApi.ImgurUploadService;
 import com.janne.syncupv2.service.images.ImageUploadService;
-import com.janne.syncupv2.service.images.ImgurConfig;
-import com.janne.syncupv2.service.images.ImgurImageUploadService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +13,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class UtilConfig {
 
-    @Value("${imgur.clientId}")
+    @Value("${external.api.imgur.endpoint}")
     private String imgurClientId;
+    @Value("${external.api.imgur.client-id}")
+    private String imgurApiUrl;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -28,13 +31,18 @@ public class UtilConfig {
     @Bean
     public ImgurConfig imgurConfig() {
         return ImgurConfig.builder()
-                .imgurUploadEndpoint("https://api.imgur.com/3/image")
+                .imgurUploadEndpoint(imgurApiUrl)
                 .clientId(imgurClientId)
                 .build();
     }
 
     @Bean
     public ImageUploadService imageUploadService() {
-        return new ImgurImageUploadService(webClient(), imgurConfig());
+        return new ImgurUploadService(webClient(), imgurConfig());
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }

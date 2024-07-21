@@ -1,7 +1,7 @@
 package com.janne.syncupv2.repository;
 
 import com.janne.syncupv2.auth.token.Token;
-import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.model.jpa.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

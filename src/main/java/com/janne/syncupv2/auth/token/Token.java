@@ -1,6 +1,6 @@
 package com.janne.syncupv2.auth.token;
 
-import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.model.jpa.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

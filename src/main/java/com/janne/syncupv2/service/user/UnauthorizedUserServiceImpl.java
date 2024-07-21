@@ -1,8 +1,8 @@
 package com.janne.syncupv2.service.user;
 
 import com.janne.syncupv2.exception.RequestException;
-import com.janne.syncupv2.model.dto.outgoing.PublicUserDto;
-import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.model.dto.outgoing.user.PublicUserDto;
+import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

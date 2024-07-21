@@ -1,5 +1,6 @@
-package com.janne.syncupv2.model.post;
+package com.janne.syncupv2.model.jpa.post;
 
+import com.janne.syncupv2.model.jpa.util.ScaledImage;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,14 +19,14 @@ public class ImageCollection {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_looking", referencedColumnName = "id")
-    private Image imageLooking;
+    private ScaledImage imageLooking;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_standing", referencedColumnName = "id")
-    private Image imageStanding;
+    private ScaledImage imageStanding;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_landing", referencedColumnName = "id")
-    private Image imageLanding;
+    private ScaledImage imageLanding;
     
 }

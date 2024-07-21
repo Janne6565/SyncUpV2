@@ -1,4 +1,4 @@
-package com.janne.syncupv2.service.images;
+package com.janne.syncupv2.service.externalApi;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.janne.syncupv2.model.post;
+package com.janne.syncupv2.model.jpa.util;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "images")
-public class Image {
+public class ScaledImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +21,5 @@ public class Image {
     private String fullScaleUrl;
 
     @NotNull
-    private String downScaledUrl;
-
+    private String thumbnailUrl;
 }
