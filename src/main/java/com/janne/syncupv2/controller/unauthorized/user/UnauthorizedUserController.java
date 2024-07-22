@@ -1,6 +1,6 @@
 package com.janne.syncupv2.controller.unauthorized.user;
 
-import com.janne.syncupv2.model.dto.outgoing.user.PublicUserDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.janne.syncupv2.service.user.UnauthorizedUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UnauthorizedUserController {
 
     private final UnauthorizedUserService unauthorizedUserService;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<PublicUserDto> user(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<Object> user(@PathVariable("userId") Integer userId) {
         return ResponseEntity.ok(unauthorizedUserService.getUser(userId));
     }
 }

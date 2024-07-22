@@ -19,9 +19,9 @@ public class UnauthorizedUserServiceImpl implements UnauthorizedUserService {
     private final ModelMapper modelMapper;
 
     @Override
-    public PublicUserDto getUser(Integer id) {
+    public PublicUserDto getUser(Integer id) throws RequestException {
         Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw RequestException.builder()
                     .message("No user with id " + id + " found")
                     .status(HttpStatus.NOT_FOUND.value())

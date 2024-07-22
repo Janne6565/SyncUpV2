@@ -2,10 +2,10 @@ package com.janne.syncupv2.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.janne.syncupv2.Application;
+import com.janne.syncupv2.model.dto.incomming.requests.auth.RegisterUserRequest;
 import com.janne.syncupv2.model.dto.outgoing.AuthenticationResponse;
 import com.janne.syncupv2.model.dto.outgoing.user.PrivateUserDto;
 import com.janne.syncupv2.model.dto.outgoing.user.PublicUserDto;
-import com.janne.syncupv2.model.dto.incomming.requests.auth.RegisterUserRequest;
 import com.janne.syncupv2.model.jpa.user.UserRole;
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
@@ -134,8 +135,8 @@ public class UserManagementTest {
         assertThat(deletedUserDto.getId()).isEqualTo(authenticationResponse.getUserId());
         assertThat(deletedUserDto.getUsertag()).isEqualTo(registerUserRequest.getUsertag());
         assertThat(deletedUserDto.getRole()).isEqualTo(UserRole.USER.toString());
-
-        getUnauthorizedUserDetails(mvc, authenticationResponse.getUserId()).andExpect(status().isNotFound());
+        ResultActions res = getUnauthorizedUserDetails(mvc, authenticationResponse.getUserId()).andExpect(status().isNotFound());
+        System.out.println(res.andReturn().getResponse());
         getAuthorizedUserDetails(mvc, authenticationResponse.getAccessToken()).andExpect(status().isForbidden());
     }
 }

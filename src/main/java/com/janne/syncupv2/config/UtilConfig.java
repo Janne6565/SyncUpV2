@@ -1,6 +1,7 @@
 package com.janne.syncupv2.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.janne.syncupv2.service.externalApi.ImgurConfig;
 import com.janne.syncupv2.service.externalApi.ImgurUploadService;
 import com.janne.syncupv2.service.images.ImageUploadService;
@@ -43,6 +44,8 @@ public class UtilConfig {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }

@@ -57,13 +57,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RequestException.class)
     public ResponseEntity<ErrorResponse> handleRequestException(RequestException e, WebRequest request) {
-        return ResponseEntity.status(e.getStatus()).body(ErrorResponse.builder()
-                .error(e.getErrorObject())
-                .path(getPath(request))
-                .status(e.getStatus())
-                .message(e.getMessage())
-                .timestamp(LocalDateTime.now())
-                .build());
+        return ResponseEntity.status(e.getStatus())
+                .body(ErrorResponse.builder()
+                    .error(e.getErrorObject())
+                    .path(getPath(request))
+                    .status(e.getStatus())
+                    .message(e.getMessage())
+                    .timestamp(LocalDateTime.now())
+                    .build()
+                );
     }
 
     @ExceptionHandler(Exception.class)
