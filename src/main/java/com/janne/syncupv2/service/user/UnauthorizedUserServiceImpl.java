@@ -1,8 +1,8 @@
 package com.janne.syncupv2.service.user;
 
 import com.janne.syncupv2.exception.RequestException;
-import com.janne.syncupv2.model.dto.outgoing.PublicUserDto;
-import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.model.dto.outgoing.user.PublicUserDto;
+import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,9 +19,9 @@ public class UnauthorizedUserServiceImpl implements UnauthorizedUserService {
     private final ModelMapper modelMapper;
 
     @Override
-    public PublicUserDto getUser(Integer id) {
+    public PublicUserDto getUser(Integer id) throws RequestException {
         Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw RequestException.builder()
                     .message("No user with id " + id + " found")
                     .status(HttpStatus.NOT_FOUND.value())

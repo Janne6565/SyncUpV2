@@ -1,6 +1,7 @@
-package com.janne.syncupv2.model.user;
+package com.janne.syncupv2.model.jpa.user;
 
 import com.janne.syncupv2.auth.token.Token;
+import com.janne.syncupv2.model.jpa.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
@@ -10,17 +11,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Entity
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "_user")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private int id;
     @Column(unique = true)
     @NotNull
     private String email;
@@ -32,6 +34,9 @@ public class User implements UserDetails {
     private UserRole role;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Token> tokens;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Post> posts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,3 +55,5 @@ public class User implements UserDetails {
     }
 
 }
+
+

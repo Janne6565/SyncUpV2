@@ -1,13 +1,12 @@
 package com.janne.syncupv2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.janne.syncupv2.model.dto.încomming.RegisterUserRequest;
+import com.janne.syncupv2.model.dto.incomming.requests.auth.RegisterUserRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 public class TestUtil {
@@ -34,7 +33,8 @@ public class TestUtil {
     }
 
     public static @NotNull ResultActions getUnauthorizedUserDetails(@NotNull MockMvc mockMvc, Integer userId) throws Exception {
-        return mockMvc.perform(get(UNAUTHORIZED_BASE_PATH + "/user/" + userId));
+        return mockMvc.perform(get(UNAUTHORIZED_BASE_PATH + "/user/" + userId)
+                .contentType(MediaType.APPLICATION_JSON));
     }
 
     public static <T> T parseResponseAction(ResultActions result, ObjectMapper objectMapper, Class<T> classParsing) throws Exception {

@@ -1,4 +1,4 @@
-package com.janne.syncupv2.service;
+package com.janne.syncupv2.service.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

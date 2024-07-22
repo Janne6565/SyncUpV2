@@ -1,4 +1,4 @@
-package com.janne.syncupv2.model.dto.outgoing;
+package com.janne.syncupv2.model.dto.outgoing.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrivateUserDto {
+public class PublicUserDto {
     private Integer id;
     private String usertag;
-    private String email;
     private String role;
 }

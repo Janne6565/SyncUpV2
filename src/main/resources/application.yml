@@ -7,18 +7,22 @@ spring:
     username: sa
     password: password
   jpa:
-    hibernate:
-      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false
+    hibernate:
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
 application:
   security:
     jwt:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 2592000000 # a month
+external:
+  api:
+    valorant:
+      endpoint: https://valorant-api.com/v1/
+    imgur:
+        endpoint: https://api.imgur.com/3/

@@ -2,9 +2,9 @@ package com.janne.syncupv2.controller.auth;
 
 import com.janne.syncupv2.controller.V1ApiController;
 import com.janne.syncupv2.model.dto.outgoing.AuthenticationResponse;
-import com.janne.syncupv2.model.dto.încomming.AuthenticationUserRequest;
-import com.janne.syncupv2.model.dto.încomming.RegisterUserRequest;
-import com.janne.syncupv2.service.AuthenticationService;
+import com.janne.syncupv2.model.dto.incomming.requests.auth.AuthenticationUserRequest;
+import com.janne.syncupv2.model.dto.incomming.requests.auth.RegisterUserRequest;
+import com.janne.syncupv2.service.auth.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

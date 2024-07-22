@@ -1,4 +1,4 @@
-package com.janne.syncupv2.service;
+package com.janne.syncupv2.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.janne.syncupv2.auth.token.Token;
@@ -6,10 +6,10 @@ import com.janne.syncupv2.auth.token.TokenType;
 import com.janne.syncupv2.exception.DuplicateEmailException;
 import com.janne.syncupv2.exception.RequestException;
 import com.janne.syncupv2.model.dto.outgoing.AuthenticationResponse;
-import com.janne.syncupv2.model.dto.încomming.AuthenticationUserRequest;
-import com.janne.syncupv2.model.dto.încomming.RegisterUserRequest;
-import com.janne.syncupv2.model.user.User;
-import com.janne.syncupv2.model.user.UserRole;
+import com.janne.syncupv2.model.dto.incomming.requests.auth.AuthenticationUserRequest;
+import com.janne.syncupv2.model.dto.incomming.requests.auth.RegisterUserRequest;
+import com.janne.syncupv2.model.jpa.user.User;
+import com.janne.syncupv2.model.jpa.user.UserRole;
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.janne.syncupv2.model.user;
+package com.janne.syncupv2.model.jpa.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

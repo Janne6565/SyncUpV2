@@ -1,6 +1,6 @@
 package com.janne.syncupv2.auditing;
 
-import com.janne.syncupv2.model.user.User;
+import com.janne.syncupv2.model.jpa.user.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,5 +23,6 @@ public class ApplicationAuditAware implements AuditorAware<Integer> {
         }
 
         User userPrincipal = (User) authentication.getPrincipal();
-        return Optional.ofNullable(userPrincipal.getId());    }
+        return Optional.of(userPrincipal.getId());
+    }
 }

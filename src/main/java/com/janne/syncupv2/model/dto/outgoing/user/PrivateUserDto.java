@@ -1,18 +1,17 @@
-package com.janne.syncupv2.model.dto.outgoing;
+package com.janne.syncupv2.model.dto.outgoing.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.management.relation.Role;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PublicUserDto {
+public class PrivateUserDto {
     private Integer id;
     private String usertag;
+    private String email;
     private String role;
 }
