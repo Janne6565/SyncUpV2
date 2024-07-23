@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ImgurConfig {
     private String imgurUploadEndpoint;
+    private String thumbnailPostfix;
     private String clientId;
 }

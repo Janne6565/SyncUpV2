@@ -18,6 +18,8 @@ public class UtilConfig {
     private String imgurClientId;
     @Value("${external.api.imgur.endpoint}")
     private String imgurApiUrl;
+    @Value("${external.api.imgur.thumbnail-postfix}")
+    private String imgurThumbnailPostfix;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -34,6 +36,7 @@ public class UtilConfig {
         return ImgurConfig.builder()
                 .imgurUploadEndpoint(imgurApiUrl)
                 .clientId(imgurClientId)
+                .thumbnailPostfix(imgurThumbnailPostfix)
                 .build();
     }
 

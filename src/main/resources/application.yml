@@ -26,3 +26,10 @@ external:
       endpoint: https://valorant-api.com/v1/
     imgur:
         endpoint: https://api.imgur.com/3/image
+        thumbnail-postfix: m # These are all valid options for the specified resolutions:
+          # s: (90x90)
+          # b: (160x160)
+          # t: (160x160)
+          # m: (320x320)
+          # l: (640x640)
+          # h: (1024x1024)
