@@ -1,4 +1,4 @@
-package com.janne.syncupv2.service.externalApi;
+package com.janne.syncupv2.service.externalApi.imgur;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

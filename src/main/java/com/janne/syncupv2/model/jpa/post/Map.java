@@ -17,8 +17,7 @@ import lombok.NoArgsConstructor;
 public class Map {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private String id;
 
     @NotNull
     private String name;
