@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table(name = "maps")
 public class Map {
 
     @Id
@@ -47,7 +47,6 @@ public class Map {
     @JoinColumn(name = "stylized_image_id", referencedColumnName = "id")
     private ScaledImage stylizedImage;
 
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "premier_image_id", referencedColumnName = "id")
     private ScaledImage premierImage;

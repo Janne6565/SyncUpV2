@@ -6,6 +6,9 @@ import com.janne.syncupv2.model.jpa.util.ScaledImage;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ImgurUploadService implements ImageUploadService {
+    private static final Logger log = LoggerFactory.getLogger(ImgurUploadService.class);
     private final ImgurConfig imgurConfig;
     private final OkHttpClient okHttpClient;
     private final ObjectMapper objectMapper;
@@ -32,12 +36,13 @@ public class ImgurUploadService implements ImageUploadService {
         String extension = splitUrl[splitUrl.length - 1];
         String fullPath = Arrays.stream(splitUrl, 0, splitUrl.length - 1).collect(Collectors.joining("."));
 
-        String thumbnailUrl = fullPath.toString() + imgurConfig.getThumbnailPostfix() + "." + extension;
+        String thumbnailUrl = fullPath + imgurConfig.getThumbnailPostfix() + "." + extension;
 
         Request checkForExistenceRequest = new Request.Builder()
                 .url(thumbnailUrl)
                 .method("GET", null)
                 .build();
+
         try (Response response = okHttpClient.newCall(checkForExistenceRequest).execute()) {
             assert response.code() == 200;
         } catch (IOException e) {
@@ -51,7 +56,8 @@ public class ImgurUploadService implements ImageUploadService {
     }
 
     @Override
-    public ScaledImage uploadScaledImages(String path) throws IOException {
+    public ScaledImage uploadScaledImages(@NotNull String path) throws IOException {
+        log.info("uploadScaledImages: {}", path);
         return uploadScaledImages(urlToBufferedImage(path));
     }
 
@@ -83,6 +89,11 @@ public class ImgurUploadService implements ImageUploadService {
             try (Response response = okHttpClient.newCall(request).execute()) {
                 res = objectMapper.readValue(Objects.requireNonNull(response.body()).string(), ImgurUploadResponse.class);
             }
+            if (!res.isSuccess()) {
+                log.error("Error uploading image: {}", res);
+                throw new RuntimeException("Error uploading image: " + res);
+            }
+
             return res;
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload image", e);

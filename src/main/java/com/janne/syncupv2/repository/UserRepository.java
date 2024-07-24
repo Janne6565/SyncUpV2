@@ -10,6 +10,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
 
     Collection<User> searchAllByUsertag(String usertag);
+    Optional<User> findByUsertag(String usertag);
 
     boolean existsByEmail(String email);
 

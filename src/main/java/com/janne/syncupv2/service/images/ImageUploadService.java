@@ -1,6 +1,7 @@
 package com.janne.syncupv2.service.images;
 
 import com.janne.syncupv2.model.jpa.util.ScaledImage;
+import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -32,7 +33,7 @@ public interface ImageUploadService {
         return uploadScaledImages(urlToBufferedImage(path));
     }
 
-    default BufferedImage urlToBufferedImage(String urlPath) throws IOException {
+    default BufferedImage urlToBufferedImage(@NotNull String urlPath) throws IOException {
         URL url = URI.create(urlPath).toURL();
         BufferedImage image = ImageIO.read(url);
         if (image == null) {

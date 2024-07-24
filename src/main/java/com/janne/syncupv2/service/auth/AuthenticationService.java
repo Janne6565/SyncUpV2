@@ -3,11 +3,10 @@ package com.janne.syncupv2.service.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.janne.syncupv2.auth.token.Token;
 import com.janne.syncupv2.auth.token.TokenType;
-import com.janne.syncupv2.exception.DuplicateEmailException;
 import com.janne.syncupv2.exception.RequestException;
-import com.janne.syncupv2.model.dto.outgoing.AuthenticationResponse;
 import com.janne.syncupv2.model.dto.incomming.requests.auth.AuthenticationUserRequest;
 import com.janne.syncupv2.model.dto.incomming.requests.auth.RegisterUserRequest;
+import com.janne.syncupv2.model.dto.outgoing.AuthenticationResponse;
 import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.model.jpa.user.UserRole;
 import com.janne.syncupv2.repository.TokenRepository;
@@ -39,8 +38,19 @@ public class AuthenticationService implements LogoutHandler {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse registerUser(final RegisterUserRequest request) {
-        if (0 < userRepository.countByEmail(request.getEmail().toLowerCase())) {
-            throw new DuplicateEmailException(request.getEmail());
+        if (userRepository.existsByEmail(request.getEmail().toLowerCase())) {
+            throw RequestException.builder()
+                    .errorObject(request)
+                    .message("Duplicate Email")
+                    .status(HttpStatus.CONFLICT.value())
+                    .build();
+        }
+        if (userRepository.findByUsertag(request.getUsertag().toLowerCase()).isPresent()) {
+            throw RequestException.builder()
+                    .errorObject("Duplicate Usertag")
+                    .status(HttpStatus.CONFLICT.value())
+                    .message("Usertag already exists")
+                    .build();
         }
 
         final User user = User.builder()

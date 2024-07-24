@@ -2,6 +2,7 @@ package com.janne.syncupv2.adapter;
 
 import com.janne.syncupv2.model.dto.incomming.externalApi.valorantApi.maps.ValorantApiMapDto;
 import com.janne.syncupv2.model.jpa.post.Map;
+import com.janne.syncupv2.model.jpa.util.ScaledImage;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,19 +15,30 @@ public class MapAdapter {
 
     private final ImageUploadService imageUploadService;
 
+    private ScaledImage uploadImage(String path) {
+        if (path == null) {
+            return null;
+        }
+        try {
+            return imageUploadService.uploadScaledImages(path);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     public Map convertMap(ValorantApiMapDto valorantApiMapDto) {
         try {
             return Map.builder()
                     .id(valorantApiMapDto.getUuid())
                     .name(valorantApiMapDto.getDisplayName())
-                    .displayIcon(imageUploadService.uploadScaledImages(valorantApiMapDto.getDisplayIcon()))
-                    .listViewIcon(imageUploadService.uploadScaledImages(valorantApiMapDto.getListViewIcon()))
-                    .stylizedImage(imageUploadService.uploadScaledImages(valorantApiMapDto.getStylizedBackgroundImage()))
-                    .splashImage(imageUploadService.uploadScaledImages(valorantApiMapDto.getSplash()))
-                    .premierImage(imageUploadService.uploadScaledImages(valorantApiMapDto.getPremierBackgroundImage()))
-                    .listViewIconTall(imageUploadService.uploadScaledImages(valorantApiMapDto.getListViewIconTall()))
+                    .displayIcon(uploadImage(valorantApiMapDto.getDisplayIcon()))
+                    .listViewIcon(uploadImage(valorantApiMapDto.getListViewIcon()))
+                    .stylizedImage(uploadImage(valorantApiMapDto.getStylizedBackgroundImage()))
+                    .splashImage(uploadImage(valorantApiMapDto.getSplash()))
+                    .premierImage(uploadImage(valorantApiMapDto.getPremierBackgroundImage()))
+                    .listViewIconTall(uploadImage(valorantApiMapDto.getListViewIconTall()))
                     .build();
-        } catch (IOException e) {
+        } catch (Error e) {
             throw new RuntimeException(e);
         }
     }

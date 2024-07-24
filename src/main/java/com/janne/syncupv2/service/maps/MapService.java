@@ -1,9 +1,11 @@
 package com.janne.syncupv2.service.maps;
 
+import com.janne.syncupv2.exception.RequestException;
 import com.janne.syncupv2.model.jpa.post.Map;
 import com.janne.syncupv2.repository.MapRepository;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -19,7 +21,14 @@ public class MapService {
         return mapRepository.findAll().toArray(new Map[0]);
     }
 
-    public Map getMapById(Float id) {
+    public Map getMapById(String id) {
+        if (!doesMapExist(id)) {
+            throw RequestException.builder()
+                    .status(HttpStatus.NOT_FOUND.value())
+                    .message("No map with given ID found")
+                    .errorObject(id)
+                    .build();
+        }
         return mapRepository.findById(id).orElse(null);
     }
 
@@ -39,5 +48,9 @@ public class MapService {
                 .build();
 
         return mapRepository.save(map);
+    }
+
+    public boolean doesMapExist(String id) {
+        return mapRepository.existsById(id);
     }
 }
