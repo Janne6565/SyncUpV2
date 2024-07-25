@@ -28,5 +28,8 @@ public class ImageCollection {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_landing", referencedColumnName = "id")
     private ScaledImage imageLanding;
-    
+
+    public ScaledImage[] toArray() {
+        return new ScaledImage[]{imageLooking, imageStanding, imageLanding};
+    }
 }

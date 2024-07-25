@@ -8,7 +8,6 @@ import com.janne.syncupv2.model.jpa.util.ScaledImage;
 import com.janne.syncupv2.service.externalApi.valorantApi.ValorantApiService;
 import com.janne.syncupv2.service.maps.MapLoaderService;
 import com.janne.syncupv2.service.maps.MapService;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +52,6 @@ public class TestMapLoadingService {
                 .build();
     }
 
-    @SneakyThrows
     @Test
     public void givenExternalMaps_testCorrectMapLoading() {
         ValorantApiMapDto mockValorantApiMapsDto = ValorantApiMapDto.builder()
