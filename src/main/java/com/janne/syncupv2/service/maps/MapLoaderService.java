@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 
@@ -26,6 +27,7 @@ public class MapLoaderService {
     public void loadMapsFromValorantApi() {
         log.debug("fetching new Maps");
         ValorantApiMapDto[] valorantApiMapDtos = valorantApiService.getMaps();
+        System.out.println(Arrays.toString(valorantApiMapDtos));
         for (ValorantApiMapDto mapDto : valorantApiMapDtos) {
             if (!mapService.doesMapExist(mapDto.getUuid()) && !mapDto.getDisplayName().equals("The Range")) {
                 log.info("New Map found: " + mapDto.getDisplayName() + " loading from dto: " + mapDto);

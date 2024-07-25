@@ -13,6 +13,7 @@ public interface ImageUploadService {
 
     String uploadImage(BufferedImage image);
     String uploadImage(String path);
+    void deleteImage(ScaledImage image);
 
     default BufferedImage scaleImage(BufferedImage image, float scale) {
         int newWidth = (int) (image.getWidth() * scale);

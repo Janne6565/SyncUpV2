@@ -1,10 +1,12 @@
 package com.janne.syncupv2.model.dto.incomming.externalApi.valorantApi.maps;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Builder
 public class ValorantApiMapDto {
     private String uuid;
     private String displayName;
