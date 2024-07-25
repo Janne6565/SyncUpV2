@@ -48,6 +48,8 @@ public class TestMapLoadingService {
         return ScaledImage.builder()
                 .fullScaleUrl(fullScaleImagePrefix + imageUrl)
                 .thumbnailUrl(thumbnailScaleImagePrefix + imageUrl)
+                .deleteFullScaleToken("fullScaleDeletion://" + imageUrl)
+                .deleteThumbnailUrl("thumbnailDeletion://" + imageUrl)
                 .build();
     }
 

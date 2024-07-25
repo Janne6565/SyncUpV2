@@ -26,6 +26,8 @@ public class TestMapAdapter {
         return ScaledImage.builder()
                 .fullScaleUrl("fullScale://" + url)
                 .thumbnailUrl("thumbnail://" + url)
+                .deleteFullScaleToken("fullScaleDeletion://" + url)
+                .deleteThumbnailUrl("thumbnailDeletion://" + url)
                 .build();
     }
 
