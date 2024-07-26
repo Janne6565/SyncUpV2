@@ -10,16 +10,23 @@ import org.jetbrains.annotations.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Table(name = "images")
 public class ScaledImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull
     private String fullScaleUrl;
 
     @NotNull
     private String thumbnailUrl;
+
+    @NotNull
+    private String deleteFullScaleToken;
+
+    private String deleteThumbnailToken;
 }

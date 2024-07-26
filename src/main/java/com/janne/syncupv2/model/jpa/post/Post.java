@@ -21,15 +21,17 @@ public class Post {
     @NotNull
     private String title;
 
-    @NotNull
-    private String body;
-
-    @NotNull
-    private String image;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "spot_from_id", referencedColumnName = "id")
+    private Spot from;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spot_to_id", referencedColumnName = "id")
+    private Spot to;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_collection_id", referencedColumnName = "id")

@@ -29,6 +29,7 @@ public class User implements UserDetails {
     @NotNull
     private String password;
     @NotNull
+    @Column(unique = true)
     private String usertag;
     @Enumerated(EnumType.STRING)
     private UserRole role;

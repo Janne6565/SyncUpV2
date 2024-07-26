@@ -2,22 +2,24 @@ package com.janne.syncupv2.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.janne.syncupv2.service.externalApi.ImgurConfig;
-import com.janne.syncupv2.service.externalApi.ImgurUploadService;
-import com.janne.syncupv2.service.images.ImageUploadService;
+import com.janne.syncupv2.service.externalApi.imgur.ImgurConfig;
+import okhttp3.OkHttpClient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class UtilConfig {
 
-    @Value("${external.api.imgur.endpoint}")
-    private String imgurClientId;
     @Value("${external.api.imgur.client-id}")
+    private String imgurClientId;
+    @Value("${external.api.imgur.endpoint}")
     private String imgurApiUrl;
+    @Value("${external.api.imgur.thumbnail-postfix}")
+    private String imgurThumbnailPostfix;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -34,12 +36,8 @@ public class UtilConfig {
         return ImgurConfig.builder()
                 .imgurUploadEndpoint(imgurApiUrl)
                 .clientId(imgurClientId)
+                .thumbnailPostfix(imgurThumbnailPostfix)
                 .build();
-    }
-
-    @Bean
-    public ImageUploadService imageUploadService() {
-        return new ImgurUploadService(webClient(), imgurConfig());
     }
 
     @Bean
@@ -47,5 +45,15 @@ public class UtilConfig {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
+    public OkHttpClient okHttpClient() {
+        return new OkHttpClient().newBuilder().build();
     }
 }

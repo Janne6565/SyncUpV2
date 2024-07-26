@@ -1,6 +1,8 @@
 package com.janne.syncupv2.controller.unauthorized;
 
+import com.janne.syncupv2.adapter.MapAdapter;
 import com.janne.syncupv2.exception.RequestException;
+import com.janne.syncupv2.service.externalApi.valorantApi.ValorantApiService;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,13 +21,15 @@ import java.io.IOException;
 public class TestController {
 
     private final ImageUploadService imageUploadService;
+    private final ValorantApiService valorantApiService;
+    private final MapAdapter mapAdapter;
 
     @PostMapping("/uploadImage")
     public String uploadPicture(@RequestParam("image") MultipartFile image, @RequestParam double scale) {
         try {
             ByteArrayInputStream byteArrayOutputStream = new ByteArrayInputStream(image.getBytes());
             BufferedImage parsedImage = ImageIO.read(byteArrayOutputStream);
-            return imageUploadService.uploadImage(parsedImage, scale);
+            return imageUploadService.uploadImage(parsedImage);
         } catch (IOException e) {
             throw RequestException.builder()
                     .errorObject(image)
@@ -33,6 +37,5 @@ public class TestController {
                     .status(HttpStatus.BAD_REQUEST.value())
                     .build();
         }
-
     }
 }

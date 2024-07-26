@@ -1,31 +1,30 @@
 package com.janne.syncupv2.controller.unauthorized.maps;
 
-import com.janne.syncupv2.model.jpa.post.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.janne.syncupv2.model.dto.outgoing.map.MapDto;
 import com.janne.syncupv2.service.maps.MapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/unauthorized/maps")
+@RequestMapping("/v1/unauthorized/map")
 public class UnauthorizedMapsController {
 
     private final MapService mapService;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/{mapId}")
-    public ResponseEntity<Map> getMapById(@PathVariable Float mapId) {
-        return ResponseEntity.ok(mapService.getMapById(mapId));
+    public ResponseEntity<MapDto> getMapById(@PathVariable String mapId) {
+        return ResponseEntity.ok(objectMapper.convertValue(mapService.getMapById(mapId), MapDto.class));
     }
 
     @GetMapping("/")
-    public ResponseEntity<Map[]> getMaps() {
-        return ResponseEntity.ok(mapService.getAllMaps());
+    public ResponseEntity<MapDto[]> getMaps() {
+        return ResponseEntity.ok(objectMapper.convertValue(mapService.getAllMaps(), MapDto[].class));
     }
-
-    @PostMapping("/")
-    public ResponseEntity<Map> saveMap(@RequestBody Map map) {
-        return ResponseEntity.ok(mapService.saveMap(map));
-    }
-
 }

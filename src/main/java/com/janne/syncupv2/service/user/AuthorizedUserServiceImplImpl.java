@@ -1,6 +1,5 @@
 package com.janne.syncupv2.service.user;
 
-import com.janne.syncupv2.model.dto.outgoing.user.PrivateUserDto;
 import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
@@ -18,18 +17,17 @@ public class AuthorizedUserServiceImplImpl implements AuthorizedUserServiceImpl 
     private final ModelMapper modelMapper;
     private final TokenRepository tokenRepository;
 
-    public PrivateUserDto deleteUser() {
+    public User deleteUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
         tokenRepository.deleteByUser(user);
         userRepository.deleteById(user.getId());
-        return modelMapper.map(user, PrivateUserDto.class);
+        return user;
     }
 
     @Override
-    public PrivateUserDto getCurrentUser() {
+    public User getCurrentUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
-        return modelMapper.map(user, PrivateUserDto.class);
+        return userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
     }
 }

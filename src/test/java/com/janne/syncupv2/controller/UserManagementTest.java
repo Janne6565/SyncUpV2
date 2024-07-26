@@ -136,7 +136,6 @@ public class UserManagementTest {
         assertThat(deletedUserDto.getUsertag()).isEqualTo(registerUserRequest.getUsertag());
         assertThat(deletedUserDto.getRole()).isEqualTo(UserRole.USER.toString());
         ResultActions res = getUnauthorizedUserDetails(mvc, authenticationResponse.getUserId()).andExpect(status().isNotFound());
-        System.out.println(res.andReturn().getResponse());
         getAuthorizedUserDetails(mvc, authenticationResponse.getAccessToken()).andExpect(status().isForbidden());
     }
 }
