@@ -27,7 +27,7 @@ public class TestMapAdapter {
                 .fullScaleUrl("fullScale://" + url)
                 .thumbnailUrl("thumbnail://" + url)
                 .deleteFullScaleToken("fullScaleDeletion://" + url)
-                .deleteThumbnailUrl("thumbnailDeletion://" + url)
+                .deleteThumbnailToken("thumbnailDeletion://" + url)
                 .build();
     }
 
