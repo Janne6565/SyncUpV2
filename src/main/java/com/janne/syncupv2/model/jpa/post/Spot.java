@@ -1,8 +1,6 @@
 package com.janne.syncupv2.model.jpa.post;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -14,8 +12,13 @@ import lombok.*;
 @AllArgsConstructor
 public class Spot {
     @Id
-    private long id;
+    @GeneratedValue
+    private Long id;
 
     private float x;
     private float y;
+
+    @ManyToOne
+    @JoinColumn(name = "map_id", referencedColumnName = "id")
+    private Map map;
 }

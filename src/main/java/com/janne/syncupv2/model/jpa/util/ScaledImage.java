@@ -28,5 +28,5 @@ public class ScaledImage {
     @NotNull
     private String deleteFullScaleToken;
 
-    private String deleteThumbnailUrl;
+    private String deleteThumbnailToken;
 }

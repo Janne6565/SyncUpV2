@@ -50,7 +50,7 @@ public class ImgurUploadService implements ImageUploadService {
     @Override
     public void deleteImage(ScaledImage image) {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        sendRequest(imgurConfig.getImgurUploadEndpoint() + "/" + image.getDeleteThumbnailUrl(), RequestBody.create(JSON, "{}"), "DELETE");
+        sendRequest(imgurConfig.getImgurUploadEndpoint() + "/" + image.getDeleteThumbnailToken(), RequestBody.create(JSON, "{}"), "DELETE");
         sendRequest(imgurConfig.getImgurUploadEndpoint() + "/" + image.getDeleteFullScaleToken(), RequestBody.create(JSON, "{}"), "DELETE");
     }
 
@@ -78,21 +78,23 @@ public class ImgurUploadService implements ImageUploadService {
 
     private ScaledImage generateScaledImageFromFullScaleUpload(ImgurUploadResponse imgurUploadResponse) throws IOException {
         String fullScaleUrl = imgurUploadResponse.getData().getLink();
+
+        String thumbnailUrl = buildThumbnailStringFromFullScale(fullScaleUrl);
+        String thumbnailDeleteHash = imgurUploadResponse.getData().getDeletehash();
+
+        if (!doesImageExist(thumbnailUrl)) {
+            BufferedImage downscaledImage = scaleImage(urlToBufferedImage(fullScaleUrl), 0.3f);
+            ImgurUploadResponse thumbnailUploadResponse = uploadImageInternally(downscaledImage);
+            thumbnailUrl = thumbnailUploadResponse.getData().getLink();
+            thumbnailDeleteHash = thumbnailUploadResponse.getData().getDeletehash();
+        }
+
         ScaledImage scaledImage = ScaledImage.builder()
                 .fullScaleUrl(fullScaleUrl)
                 .deleteFullScaleToken(imgurUploadResponse.getData().getDeletehash())
+                .thumbnailUrl(thumbnailUrl)
+                .deleteThumbnailToken(thumbnailDeleteHash)
                 .build();
-
-        String thumbnailUrl = buildThumbnailStringFromFullScale(fullScaleUrl);
-
-        if (doesImageExist(thumbnailUrl)) {
-            scaledImage.setThumbnailUrl(thumbnailUrl);
-        } else {
-            BufferedImage downscaledImage = scaleImage(urlToBufferedImage(fullScaleUrl), 0.3f);
-            ImgurUploadResponse thumbnailUploadResponse = uploadImageInternally(downscaledImage);
-            scaledImage.setThumbnailUrl(thumbnailUploadResponse.getData().getLink());
-            scaledImage.setDeleteThumbnailUrl(thumbnailUploadResponse.getData().getDeletehash());
-        }
 
         return scaledImage;
     }
@@ -133,7 +135,7 @@ public class ImgurUploadService implements ImageUploadService {
         try {
             ImgurUploadResponse imgurUploadResponse = objectMapper.readValue(response, ImgurUploadResponse.class);
             if (!imgurUploadResponse.isSuccess()) {
-                throw new RuntimeException("Failed to upload Image using body: \n" + requestBody.toString());
+                throw new RuntimeException("Failed to upload Image \nResponse: \n" + response);
             }
             return imgurUploadResponse;
         } catch (JsonProcessingException e) {

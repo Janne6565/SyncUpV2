@@ -1,19 +1,23 @@
 package com.janne.syncupv2.model.dto.outgoing.post;
 
 
-import com.janne.syncupv2.model.dto.outgoing.util.ImageDto;
+import com.janne.syncupv2.model.dto.outgoing.util.ScaledImageDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MapDto {
-    private long id;
+    private String id;
     private String name;
-    private ImageDto displayIcon;
-    private ImageDto listViewIcon;
-    private ImageDto listViewIconTall;
-    private ImageDto splashImage;
-    private ImageDto stylizedImage;
-    private ImageDto premierImage;
+    private ScaledImageDto displayIcon;
+    private ScaledImageDto listViewIcon;
+    private ScaledImageDto listViewIconTall;
+    private ScaledImageDto splashImage;
+    private ScaledImageDto stylizedImage;
+    private ScaledImageDto premierImage;
 }
