@@ -38,10 +38,10 @@ public class MapLoaderService {
         boolean foundNewMap = false;
         for (ValorantApiMapDto mapDto : valorantApiMapDtos) {
             if (!mapService.doesMapExist(mapDto.getUuid()) && !mapDto.getDisplayName().equals("The Range")) {
-                log.info("New Map found: " + mapDto.getDisplayName() + " loading from dto: " + mapDto);
+                log.info("New Map found: {} loading from dto: {}", mapDto.getDisplayName(), mapDto);
                 foundNewMap = true;
                 Map map = mapService.saveMap(mapAdapter.convertMap(mapDto));
-                log.info("Map saved as: " + map);
+                log.info("Map saved as: {}", map);
             }
         }
         if (!foundNewMap) {
