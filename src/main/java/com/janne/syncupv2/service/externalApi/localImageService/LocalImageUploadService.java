@@ -124,11 +124,7 @@ public class LocalImageUploadService implements ImageUploadService {
                 .build();
         try {
             Response res = okHttpClient.newCall(request).execute();
-            try {
-            } finally {
-                res.close();
-            }
-            ;
+            res.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
