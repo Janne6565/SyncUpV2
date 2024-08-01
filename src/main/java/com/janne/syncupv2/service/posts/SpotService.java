@@ -13,6 +13,14 @@ public class SpotService {
     private final SpotRepository spotRepository;
     private final MapService mapService;
 
+    public boolean areSpotsOnSameMap(Spot spot1, Spot spot2) {
+        return spot1.getMap().getId().equals(spot2.getMap().getId());
+    }
+
+    public boolean areSpotsOnSameMap(Long spotId1, Long spotId2) {
+        return areSpotsOnSameMap(getSpot(spotId1), getSpot(spotId2));
+    }
+
     public Spot createSpot(float x, float y, String mapId) {
         Spot spot = Spot.builder()
                 .x(x)

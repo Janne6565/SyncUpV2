@@ -1,5 +1,6 @@
 package com.janne.syncupv2.model.jpa.util;
 
+import com.janne.syncupv2.service.images.ImageScaleFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
@@ -31,4 +32,7 @@ public class ScaledImage {
     private String deleteThumbnailToken;
 
     private String uploadService;
+
+    @NotNull
+    private ImageScaleFormat format;
 }

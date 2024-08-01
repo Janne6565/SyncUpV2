@@ -39,18 +39,39 @@ public class AuthorizedPostServiceImpl {
         return postRepository.save(post);
     }
 
-    public void deletePost(User authenticatedUser, Post post) {
-        if (authenticatedUser.getId() != post.getUser().getId() && !authenticatedUser.getRole().getPermissions().contains(Permission.ADMIN_DELETE)) {
-            throw RequestException.builder()
-                    .errorObject(post)
-                    .message("Unable to delete post which isn't your own")
-                    .status(HttpStatus.UNAUTHORIZED.value())
-                    .build();
-        }
+    public Post updatePost(User authenticatedUser, Long postId, String title, Spot from, Spot to) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> RequestException.builder()
+                .message("Post not found")
+                .status(HttpStatus.NOT_FOUND.value())
+                .build());
+
+        post.setTitle(title);
+        post.setFrom(from);
+        post.setTo(to);
+        return postRepository.save(post);
+    }
+
+    public void deletePost(User authenticatedUser, Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> RequestException.builder()
+                .message("Post not found")
+                .status(HttpStatus.NOT_FOUND.value())
+                .build());
+
+        assertPostOwnership(authenticatedUser, post);
 
         postRepository.delete(post);
         for (ScaledImage image : post.getImageCollection().toArray()) {
             imageUploadService.deleteImage(image);
+        }
+    }
+
+    private void assertPostOwnership(User authenticatedUser, Post post) {
+        if (authenticatedUser.getId() != post.getUser().getId() && !authenticatedUser.getRole().getPermissions().contains(Permission.ADMIN_UPDATE)) {
+            throw RequestException.builder()
+                    .errorObject(post)
+                    .message("Unable to update post which isn't your own")
+                    .status(HttpStatus.UNAUTHORIZED.value())
+                    .build();
         }
     }
 }

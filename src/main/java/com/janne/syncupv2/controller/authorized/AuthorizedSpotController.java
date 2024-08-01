@@ -4,6 +4,7 @@ import com.janne.syncupv2.model.dto.incomming.requests.post.CreateSpotRequest;
 import com.janne.syncupv2.model.dto.outgoing.util.SpotDto;
 import com.janne.syncupv2.model.jpa.post.Spot;
 import com.janne.syncupv2.service.posts.SpotService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class AuthorizedSpotController {
     private final ModelMapper modelMapper;
 
     @PostMapping("/")
-    public ResponseEntity<SpotDto> createSpot(@RequestBody CreateSpotRequest spotRequest) {
+    public ResponseEntity<SpotDto> createSpot(@Valid @RequestBody CreateSpotRequest spotRequest) {
         Spot createdSpot = spotService.createSpot(spotRequest.getX(), spotRequest.getY(), spotRequest.getMapId());
         return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(createdSpot, SpotDto.class));
     }

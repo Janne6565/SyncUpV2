@@ -1,7 +1,7 @@
 package com.janne.syncupv2.controller.authorized;
 
 import com.janne.syncupv2.model.dto.outgoing.user.PrivateUserDto;
-import com.janne.syncupv2.service.user.AuthorizedUserServiceImplImpl;
+import com.janne.syncupv2.service.user.AuthorizedUserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/authorized")
 public class AuthorizedUserController {
 
-    private final AuthorizedUserServiceImplImpl privateUserService;
+    private final AuthorizedUserServiceImpl privateUserService;
     private final ModelMapper modelMapper;
 
     @DeleteMapping("/user")

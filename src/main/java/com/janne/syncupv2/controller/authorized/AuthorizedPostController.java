@@ -7,14 +7,12 @@ import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.service.images.ImageUtilService;
 import com.janne.syncupv2.service.posts.AuthorizedPostServiceImpl;
 import com.janne.syncupv2.service.posts.SpotService;
-import com.janne.syncupv2.service.user.AuthorizedUserServiceImplImpl;
+import com.janne.syncupv2.service.user.AuthorizedUserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
@@ -25,19 +23,24 @@ import java.util.Objects;
 public class AuthorizedPostController {
 
     private final AuthorizedPostServiceImpl authorizedPostServiceImpl;
-    private final AuthorizedUserServiceImplImpl authorizedUserServiceImpl;
+    private final AuthorizedUserServiceImpl authorizedUserServiceImpl;
     private final ImageUtilService imageUtilService;
     private final ModelMapper modelMapper;
     private final SpotService spotService;
 
-    @PostMapping("/")
-    public ResponseEntity<PostDto> createPost(String title, long fromSpot, long toSpot, MultipartFile imageStanding, MultipartFile imageLanding, MultipartFile imageLooking) {
+    @PostMapping
+    public ResponseEntity<PostDto> createPost(
+            @RequestParam String title,
+            @RequestParam Long fromSpot,
+            @RequestParam Long toSpot,
+            @RequestParam MultipartFile imageStanding,
+            @RequestParam MultipartFile imageLanding,
+            @RequestParam MultipartFile imageLooking
+    ) {
         User user = authorizedUserServiceImpl.getCurrentUser();
-        Spot from = spotService.getSpot(fromSpot);
-        Spot to = spotService.getSpot(toSpot);
-        if (!Objects.equals(from.getMap().getId(), to.getMap().getId())) {
+        if (!spotService.areSpotsOnSameMap(fromSpot, toSpot)) {
             throw RequestException.builder()
-                    .errorObject(new Spot[]{from, to})
+                    .errorObject(new Spot[]{spotService.getSpot(fromSpot), spotService.getSpot(toSpot)})
                     .message("Spots are not on the same map")
                     .status(HttpStatus.BAD_REQUEST.value())
                     .build();
@@ -51,6 +54,39 @@ public class AuthorizedPostController {
                 imageUtilService.loadImageFromMultipartFile(imageStanding),
                 imageUtilService.loadImageFromMultipartFile(imageLanding),
                 imageUtilService.loadImageFromMultipartFile(imageLooking)
+        ), PostDto.class));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<PostDto> deletePost(@RequestParam Long postId) {
+        User user = authorizedUserServiceImpl.getCurrentUser();
+        authorizedPostServiceImpl.deletePost(user, postId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<PostDto> updatePost(
+            @RequestParam Long postId,
+            @RequestParam String title,
+            @RequestParam Long fromSpot,
+            @RequestParam Long toSpot
+    ) {
+        Spot from = spotService.getSpot(fromSpot);
+        Spot to = spotService.getSpot(toSpot);
+        if (!Objects.equals(from.getMap().getId(), to.getMap().getId())) {
+            throw RequestException.builder()
+                    .errorObject(new Spot[]{from, to})
+                    .message("Spots are not on the same map")
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .build();
+        }
+
+        return ResponseEntity.ok().body(modelMapper.map(authorizedPostServiceImpl.updatePost(
+                authorizedUserServiceImpl.getCurrentUser(),
+                postId,
+                title,
+                from,
+                to
         ), PostDto.class));
     }
 }
