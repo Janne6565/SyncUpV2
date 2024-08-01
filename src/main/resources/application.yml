@@ -22,6 +22,10 @@ application:
         expiration: 2592000000 # a month
 external:
   api:
+    localImageService:
+      endpoint: "http://localhost:8081"
+      authToken: "test1234"
+      hostedPrefix: "http://localhost:8081/images"
     valorant:
       endpoint: https://valorant-api.com/v1/
     imgur:

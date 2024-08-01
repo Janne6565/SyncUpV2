@@ -7,8 +7,6 @@ import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
 @RequiredArgsConstructor
 public class MapAdapter {
@@ -19,11 +17,7 @@ public class MapAdapter {
         if (path == null) {
             return null;
         }
-        try {
-            return imageUploadService.uploadScaledImages(path);
-        } catch (IOException e) {
-            return null;
-        }
+        return imageUploadService.uploadScaledImages(path);
     }
 
     public Map convertMap(ValorantApiMapDto valorantApiMapDto) {

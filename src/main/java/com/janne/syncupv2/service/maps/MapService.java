@@ -3,6 +3,7 @@ package com.janne.syncupv2.service.maps;
 import com.janne.syncupv2.exception.RequestException;
 import com.janne.syncupv2.model.jpa.post.Map;
 import com.janne.syncupv2.repository.MapRepository;
+import com.janne.syncupv2.service.images.ImageScaleFormat;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,12 +40,12 @@ public class MapService {
     public Map createNewMap(String name, BufferedImage displayIcon, BufferedImage listViewIcon, BufferedImage listViewIconTall, BufferedImage splashImage, BufferedImage stylizedImage, BufferedImage premierImage) {
         Map map = Map.builder()
                 .name(name)
-                .displayIcon(imageUploadService.uploadScaledImages(displayIcon))
-                .listViewIcon(imageUploadService.uploadScaledImages(listViewIcon))
-                .listViewIconTall(imageUploadService.uploadScaledImages(listViewIconTall))
-                .splashImage(imageUploadService.uploadScaledImages(splashImage))
-                .stylizedImage(imageUploadService.uploadScaledImages(stylizedImage))
-                .premierImage(imageUploadService.uploadScaledImages(premierImage))
+                .displayIcon(imageUploadService.uploadScaledImages(displayIcon, ImageScaleFormat.FULL_SCREEN))
+                .listViewIcon(imageUploadService.uploadScaledImages(listViewIcon, ImageScaleFormat.FULL_SCREEN))
+                .listViewIconTall(imageUploadService.uploadScaledImages(listViewIconTall, ImageScaleFormat.FULL_SCREEN))
+                .splashImage(imageUploadService.uploadScaledImages(splashImage, ImageScaleFormat.FULL_SCREEN))
+                .stylizedImage(imageUploadService.uploadScaledImages(stylizedImage, ImageScaleFormat.FULL_SCREEN))
+                .premierImage(imageUploadService.uploadScaledImages(premierImage, ImageScaleFormat.FULL_SCREEN))
                 .build();
 
         return mapRepository.save(map);

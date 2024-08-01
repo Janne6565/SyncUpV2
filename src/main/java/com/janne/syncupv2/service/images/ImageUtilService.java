@@ -9,7 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 @Service
-public class ImageService {
+public class ImageUtilService {
 
     public BufferedImage loadImageFromMultipartFile(MultipartFile image) {
         try {
@@ -18,6 +18,5 @@ public class ImageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

@@ -3,6 +3,7 @@ package com.janne.syncupv2.controller.unauthorized;
 import com.janne.syncupv2.adapter.MapAdapter;
 import com.janne.syncupv2.exception.RequestException;
 import com.janne.syncupv2.service.externalApi.valorantApi.ValorantApiService;
+import com.janne.syncupv2.service.images.ImageScaleFormat;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class TestController {
         try {
             ByteArrayInputStream byteArrayOutputStream = new ByteArrayInputStream(image.getBytes());
             BufferedImage parsedImage = ImageIO.read(byteArrayOutputStream);
-            return imageUploadService.uploadImage(parsedImage);
+            return imageUploadService.uploadImage(parsedImage, ImageScaleFormat.FULL_SCREEN);
         } catch (IOException e) {
             throw RequestException.builder()
                     .errorObject(image)

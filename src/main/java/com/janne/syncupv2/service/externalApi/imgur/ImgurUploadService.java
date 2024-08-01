@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.janne.syncupv2.model.dto.incomming.externalApi.imgur.ImgurUploadResponse;
 import com.janne.syncupv2.model.jpa.util.ScaledImage;
+import com.janne.syncupv2.service.images.ImageScaleFormat;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
@@ -28,7 +29,7 @@ public class ImgurUploadService implements ImageUploadService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public ScaledImage uploadScaledImages(String imageUrl) {
+    public ScaledImage uploadScaledImages(String imageUrl, ImageScaleFormat imageScaleFormat) {
         ImgurUploadResponse uploadFullResolutionResult = uploadImageInternally(imageUrl);
         try {
             return generateScaledImageFromFullScaleUpload(uploadFullResolutionResult);
@@ -38,13 +39,27 @@ public class ImgurUploadService implements ImageUploadService {
     }
 
     @Override
-    public ScaledImage uploadScaledImages(BufferedImage image) {
+    public ScaledImage uploadScaledImages(BufferedImage image, ImageScaleFormat imageScaleFormat) {
         ImgurUploadResponse uploadFullResolutionResult = uploadImageInternally(image);
         try {
             return generateScaledImageFromFullScaleUpload(uploadFullResolutionResult);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public ScaledImage uploadScaledImages(String path) {
+        try {
+            return uploadScaledImages(urlToBufferedImage(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ScaledImage uploadScaledImages(BufferedImage image) {
+        return uploadScaledImages(image, ImageScaleFormat.detectScaleFromImage(image));
     }
 
     @Override
@@ -78,7 +93,6 @@ public class ImgurUploadService implements ImageUploadService {
 
     private ScaledImage generateScaledImageFromFullScaleUpload(ImgurUploadResponse imgurUploadResponse) throws IOException {
         String fullScaleUrl = imgurUploadResponse.getData().getLink();
-
         String thumbnailUrl = buildThumbnailStringFromFullScale(fullScaleUrl);
         String thumbnailDeleteHash = imgurUploadResponse.getData().getDeletehash();
 
@@ -89,14 +103,12 @@ public class ImgurUploadService implements ImageUploadService {
             thumbnailDeleteHash = thumbnailUploadResponse.getData().getDeletehash();
         }
 
-        ScaledImage scaledImage = ScaledImage.builder()
+        return ScaledImage.builder()
                 .fullScaleUrl(fullScaleUrl)
                 .deleteFullScaleToken(imgurUploadResponse.getData().getDeletehash())
                 .thumbnailUrl(thumbnailUrl)
                 .deleteThumbnailToken(thumbnailDeleteHash)
                 .build();
-
-        return scaledImage;
     }
 
     private ImgurUploadResponse uploadImageInternally(BufferedImage image) {
@@ -160,12 +172,17 @@ public class ImgurUploadService implements ImageUploadService {
         }
     }
 
-    public String uploadImage(BufferedImage bufferedImage) {
-        return uploadImageInternally(bufferedImage).getData().getLink();
+    public String uploadImage(BufferedImage bufferedImage, ImageScaleFormat imageScaleFormat) {
+        return uploadImageInternally(resizeImage(bufferedImage, imageScaleFormat.getWidth(), imageScaleFormat.getHeight())).getData().getLink();
     }
 
-    public String uploadImage(String imagePath) {
+    public String uploadImage(String imagePath, ImageScaleFormat imageScaleFormat) {
         return uploadImageInternally(imagePath).getData().getLink();
+    }
+
+    @Override
+    public String getUploadServiceName() {
+        return "imgur";
     }
 
 }

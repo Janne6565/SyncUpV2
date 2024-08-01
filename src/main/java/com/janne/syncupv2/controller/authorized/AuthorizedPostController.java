@@ -4,7 +4,7 @@ import com.janne.syncupv2.exception.RequestException;
 import com.janne.syncupv2.model.dto.outgoing.post.PostDto;
 import com.janne.syncupv2.model.jpa.post.Spot;
 import com.janne.syncupv2.model.jpa.user.User;
-import com.janne.syncupv2.service.images.ImageService;
+import com.janne.syncupv2.service.images.ImageUtilService;
 import com.janne.syncupv2.service.posts.AuthorizedPostServiceImpl;
 import com.janne.syncupv2.service.posts.SpotService;
 import com.janne.syncupv2.service.user.AuthorizedUserServiceImplImpl;
@@ -26,7 +26,7 @@ public class AuthorizedPostController {
 
     private final AuthorizedPostServiceImpl authorizedPostServiceImpl;
     private final AuthorizedUserServiceImplImpl authorizedUserServiceImpl;
-    private final ImageService imageService;
+    private final ImageUtilService imageUtilService;
     private final ModelMapper modelMapper;
     private final SpotService spotService;
 
@@ -48,9 +48,9 @@ public class AuthorizedPostController {
                 spotService.getSpot(fromSpot),
                 spotService.getSpot(toSpot),
                 title,
-                imageService.loadImageFromMultipartFile(imageStanding),
-                imageService.loadImageFromMultipartFile(imageLanding),
-                imageService.loadImageFromMultipartFile(imageLooking)
+                imageUtilService.loadImageFromMultipartFile(imageStanding),
+                imageUtilService.loadImageFromMultipartFile(imageLanding),
+                imageUtilService.loadImageFromMultipartFile(imageLooking)
         ), PostDto.class));
     }
 }
