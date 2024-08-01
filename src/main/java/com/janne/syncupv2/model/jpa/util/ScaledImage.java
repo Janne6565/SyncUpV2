@@ -29,4 +29,6 @@ public class ScaledImage {
     private String deleteFullScaleToken;
 
     private String deleteThumbnailToken;
+
+    private String uploadService;
 }

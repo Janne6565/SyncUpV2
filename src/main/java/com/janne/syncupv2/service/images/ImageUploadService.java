@@ -11,8 +11,13 @@ import java.net.URL;
 
 public interface ImageUploadService {
 
-    String uploadImage(BufferedImage image);
-    String uploadImage(String path);
+    String uploadImage(BufferedImage image, ImageScaleFormat imageScaleFormat);
+    String uploadImage(String path, ImageScaleFormat imageScaleFormat);
+    String getUploadServiceName();
+    ScaledImage uploadScaledImages(String path, ImageScaleFormat imageScaleFormat) throws IOException;
+    ScaledImage uploadScaledImages(BufferedImage image, ImageScaleFormat imageScaleFormat);
+    ScaledImage uploadScaledImages(String path);
+    ScaledImage uploadScaledImages(BufferedImage image);
     void deleteImage(ScaledImage image);
 
     default BufferedImage scaleImage(BufferedImage image, float scale) {
@@ -23,15 +28,10 @@ public interface ImageUploadService {
         return resizedImage;
     }
 
-    default ScaledImage uploadScaledImages(BufferedImage image) {
-        return ScaledImage.builder()
-                .fullScaleUrl(uploadImage(scaleImage(image, 1f)))
-                .thumbnailUrl(uploadImage(scaleImage(image, .3f)))
-                .build();
-    }
-
-    default ScaledImage uploadScaledImages(String path) throws IOException {
-        return uploadScaledImages(urlToBufferedImage(path));
+    default BufferedImage resizeImage(BufferedImage image, int width, int height) {
+        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+        resizedImage.getGraphics().drawImage(image, 0, 0, width, height, null);
+        return resizedImage;
     }
 
     default BufferedImage urlToBufferedImage(@NotNull String urlPath) throws IOException {

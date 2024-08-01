@@ -9,6 +9,7 @@ import com.janne.syncupv2.model.jpa.user.Permission;
 import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.model.jpa.util.ScaledImage;
 import com.janne.syncupv2.repository.PostRepository;
+import com.janne.syncupv2.service.images.ImageScaleFormat;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,9 @@ public class AuthorizedPostServiceImpl {
                 .to(to)
                 .title(title)
                 .imageCollection(ImageCollection.builder()
-                        .imageStanding(imageUploadService.uploadScaledImages(imageStanding))
-                        .imageLanding(imageUploadService.uploadScaledImages(imageLanding))
-                        .imageLooking(imageUploadService.uploadScaledImages(imageLooking))
+                        .imageStanding(imageUploadService.uploadScaledImages(imageStanding, ImageScaleFormat.FULL_SCREEN))
+                        .imageLanding(imageUploadService.uploadScaledImages(imageLanding, ImageScaleFormat.FULL_SCREEN))
+                        .imageLooking(imageUploadService.uploadScaledImages(imageLooking, ImageScaleFormat.FULL_SCREEN))
                         .build()
                 ).build();
         return postRepository.save(post);
