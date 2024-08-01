@@ -42,7 +42,7 @@ public class LocalImageUploadService implements ImageUploadService {
                 .build();
         try {
             try (Response res = okHttpClient.newCall(request).execute()) {
-                String response = Objects.requireNonNull(res.body()).toString();
+                String response = Objects.requireNonNull(res.body()).string();
                 return objectMapper.readValue(response, LocalImageServiceUploadResponse.class);
             }
         } catch (IOException e) {
@@ -117,6 +117,16 @@ public class LocalImageUploadService implements ImageUploadService {
 
     @Override
     public void deleteImage(ScaledImage image) {
+        Request request = new Request.Builder()
+                .url(localImageUploadServiceEndpoint + "/image/" + image.getDeleteFullScaleToken())
+                .header("Authorization", "Bearer " + authToken)
+                .delete()
+                .build();
+        try {
+            okHttpClient.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

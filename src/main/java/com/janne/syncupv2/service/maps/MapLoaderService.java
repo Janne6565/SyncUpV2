@@ -35,17 +35,15 @@ public class MapLoaderService {
             return;
         }
 
-        boolean foundNewMap = false;
+        int newMaps = 0;
         for (ValorantApiMapDto mapDto : valorantApiMapDtos) {
             if (!mapService.doesMapExist(mapDto.getUuid()) && !mapDto.getDisplayName().equals("The Range") && !mapDto.getDisplayName().equals("Basic Training")) {
                 log.info("New Map found: {} loading from dto: {}", mapDto.getDisplayName(), mapDto);
-                foundNewMap = true;
+                newMaps++;
                 Map map = mapService.saveMap(mapAdapter.convertMap(mapDto));
                 log.info("Map saved as: {}", map);
             }
         }
-        if (!foundNewMap) {
-            log.info("No new Maps found");
-        }
+        log.info("Loaded {} new Maps", newMaps);
     }
 }
