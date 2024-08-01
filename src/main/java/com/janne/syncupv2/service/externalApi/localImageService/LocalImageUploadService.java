@@ -41,8 +41,10 @@ public class LocalImageUploadService implements ImageUploadService {
                 .post(requestBody)
                 .build();
         try {
-            String response = Objects.requireNonNull(okHttpClient.newCall(request).execute().body()).string();
-            return objectMapper.readValue(response, LocalImageServiceUploadResponse.class);
+            try (Response res = okHttpClient.newCall(request).execute()) {
+                String response = Objects.requireNonNull(res.body()).toString();
+                return objectMapper.readValue(response, LocalImageServiceUploadResponse.class);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
