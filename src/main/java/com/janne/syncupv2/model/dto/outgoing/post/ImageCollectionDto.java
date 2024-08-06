@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ImageCollectionDto {
-    private Long id;
+    private String id;
     private ScaledImageDto imageLooking;
     private ScaledImageDto imageStanding;
     private ScaledImageDto imageLanding;
