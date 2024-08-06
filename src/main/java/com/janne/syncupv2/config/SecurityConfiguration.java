@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                                 .permitAll()
                                 .requestMatchers("/v1/unauthorized/**")
                                 .permitAll()
-                                .requestMatchers("/v1/authenticated/**")
+                                .requestMatchers("/v1/authorized/**")
                                 .authenticated()
                                 .anyRequest()
                                 .permitAll()
