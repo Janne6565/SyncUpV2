@@ -3,6 +3,7 @@ package com.janne.syncupv2.auth;
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
 import com.janne.syncupv2.service.auth.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,9 +71,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
             filterChain.doFilter(request, response);
-            throw new RuntimeException(e);
         }
     }
 }
