@@ -25,7 +25,7 @@ external:
     localImageService:
       endpoint: "http://localhost:8081"
       authToken: "test1234"
-      hostedPrefix: "http://localhost:8081/images"
+      hostedPrefix: "http://localhost/images"
     valorant:
       endpoint: https://valorant-api.com/v1/
     imgur:
@@ -37,3 +37,8 @@ external:
           # m: (320x320)
           # l: (640x640)
           # h: (1024x1024)
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

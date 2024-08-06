@@ -6,10 +6,7 @@ import com.janne.syncupv2.service.posts.UnauthorizedPostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/unauthorized/post")
@@ -20,8 +17,8 @@ public class UnauthorizedPostController {
     private final ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<PostDto[]> getPosts() {
-        Post[] posts = unauthorizedPostServiceImpl.getPosts();
+    public ResponseEntity<PostDto[]> getPosts(@RequestParam(required = false) String username, @RequestParam(required = false) String title, @RequestParam(required = false) String map) {
+        Post[] posts = unauthorizedPostServiceImpl.getPosts(username, title, map);
         return ResponseEntity.ok().body(modelMapper.map(posts, PostDto[].class));
     }
 
