@@ -18,7 +18,7 @@ public class UnauthorizedUserController {
     private final ObjectMapper objectMapper;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Object> user(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<Object> user(@PathVariable("userId") String userId) {
         return ResponseEntity.ok(unauthorizedUserService.getUser(userId));
     }
 }

@@ -31,8 +31,8 @@ public class AuthorizedPostController {
     @PostMapping
     public ResponseEntity<PostDto> createPost(
             @RequestParam String title,
-            @RequestParam Long fromSpot,
-            @RequestParam Long toSpot,
+            @RequestParam String fromSpot,
+            @RequestParam String toSpot,
             @RequestParam MultipartFile imageStanding,
             @RequestParam MultipartFile imageLanding,
             @RequestParam MultipartFile imageLooking
@@ -58,7 +58,7 @@ public class AuthorizedPostController {
     }
 
     @DeleteMapping
-    public ResponseEntity<PostDto> deletePost(@RequestParam Long postId) {
+    public ResponseEntity<PostDto> deletePost(@RequestParam String postId) {
         User user = authorizedUserServiceImpl.getCurrentUser();
         authorizedPostServiceImpl.deletePost(user, postId);
         return ResponseEntity.ok().build();
@@ -66,10 +66,10 @@ public class AuthorizedPostController {
 
     @PutMapping
     public ResponseEntity<PostDto> updatePost(
-            @RequestParam Long postId,
+            @RequestParam String postId,
             @RequestParam String title,
-            @RequestParam Long fromSpot,
-            @RequestParam Long toSpot
+            @RequestParam String fromSpot,
+            @RequestParam String toSpot
     ) {
         Spot from = spotService.getSpot(fromSpot);
         Spot to = spotService.getSpot(toSpot);

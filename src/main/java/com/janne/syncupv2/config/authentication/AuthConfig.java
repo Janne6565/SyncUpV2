@@ -45,7 +45,7 @@ public class AuthConfig {
     }
 
     @Bean
-    public AuditorAware<Integer> auditorProvider() {
+    public AuditorAware<String> auditorProvider() {
         return new ApplicationAuditAware();
     }
 

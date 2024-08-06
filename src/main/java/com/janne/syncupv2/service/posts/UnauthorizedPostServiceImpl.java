@@ -15,7 +15,7 @@ public class UnauthorizedPostServiceImpl {
         return postRepository.findPostByCriteria(username, title, map).toArray(Post[]::new);
     }
 
-    public Post getPost(Long id) {
+    public Post getPost(String id) {
         return postRepository.findById(id).orElseThrow();
     }
 }

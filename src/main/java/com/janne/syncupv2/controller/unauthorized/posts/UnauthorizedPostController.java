@@ -23,7 +23,7 @@ public class UnauthorizedPostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getPost(@PathVariable Long id) {
+    public ResponseEntity<PostDto> getPost(@PathVariable String id) {
         return ResponseEntity.ok().body(modelMapper.map(unauthorizedPostServiceImpl.getPost(id), PostDto.class));
     }
 

@@ -12,8 +12,8 @@ import lombok.*;
 @AllArgsConstructor
 public class Spot {
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     private float x;
     private float y;

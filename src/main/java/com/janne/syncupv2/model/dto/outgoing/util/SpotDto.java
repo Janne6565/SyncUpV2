@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SpotDto {
-    private Long id;
+    private String id;
     private float x;
     private float y;
     private String mapId;

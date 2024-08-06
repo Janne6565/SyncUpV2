@@ -39,7 +39,7 @@ public class AuthorizedPostServiceImpl {
         return postRepository.save(post);
     }
 
-    public Post updatePost(User authenticatedUser, Long postId, String title, Spot from, Spot to) {
+    public Post updatePost(User authenticatedUser, String postId, String title, Spot from, Spot to) {
         Post post = postRepository.findById(postId).orElseThrow(() -> RequestException.builder()
                 .message("Post not found")
                 .status(HttpStatus.NOT_FOUND.value())
@@ -51,7 +51,7 @@ public class AuthorizedPostServiceImpl {
         return postRepository.save(post);
     }
 
-    public void deletePost(User authenticatedUser, Long postId) {
+    public void deletePost(User authenticatedUser, String postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> RequestException.builder()
                 .message("Post not found")
                 .status(HttpStatus.NOT_FOUND.value())

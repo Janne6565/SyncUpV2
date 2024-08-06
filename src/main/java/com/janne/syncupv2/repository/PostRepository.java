@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, String> {
     @Query("SELECT p FROM Post p WHERE " +
             "(:username IS NULL OR p.user.usertag LIKE %:username%) AND " +
             "(:title IS NULL OR p.title LIKE %:title%) AND " +
