@@ -25,7 +25,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 
-@TestPropertySource(properties = "spring.task.scheduling.enabled=false")
+@TestPropertySource(locations = "file:application-test.yml")
 @ExtendWith(MockitoExtension.class)
 public class TestMapLoadingService {
 

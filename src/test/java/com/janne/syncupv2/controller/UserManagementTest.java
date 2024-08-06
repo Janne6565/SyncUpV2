@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
@@ -132,7 +131,7 @@ public class UserManagementTest {
         assertThat(deletedUserDto.getId()).isEqualTo(authenticationResponse.getUserId());
         assertThat(deletedUserDto.getUsertag()).isEqualTo(registerUserRequest.getUsertag());
         assertThat(deletedUserDto.getRole()).isEqualTo(UserRole.USER.toString());
-        ResultActions res = getUnauthorizedUserDetails(mvc, authenticationResponse.getUserId()).andExpect(status().isNotFound());
-        getAuthorizedUserDetails(mvc, authenticationResponse.getAccessToken()).andExpect(status().isUnauthorized());
+        getUnauthorizedUserDetails(mvc, authenticationResponse.getUserId()).andExpect(status().isNotFound());
+        getAuthorizedUserDetails(mvc, authenticationResponse.getAccessToken()).andExpect(status().isForbidden());
     }
 }

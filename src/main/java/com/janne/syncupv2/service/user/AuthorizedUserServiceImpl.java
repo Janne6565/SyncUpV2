@@ -5,6 +5,7 @@ import com.janne.syncupv2.model.jpa.user.User;
 import com.janne.syncupv2.repository.TokenRepository;
 import com.janne.syncupv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class AuthorizedUserServiceImpl implements AuthorizedUserService {
         if (SecurityContextHolder.getContext() == null || SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
             throw RequestException.builder()
                     .message("User not authenticated")
-                    .status(401)
+                    .status(HttpStatus.FORBIDDEN.value())
                     .build();
         }
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
