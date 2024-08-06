@@ -17,8 +17,8 @@ public class UnauthorizedPostController {
     private final ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<PostDto[]> getPosts(@RequestParam(required = false) String username, @RequestParam(required = false) String title, @RequestParam(required = false) String map) {
-        Post[] posts = unauthorizedPostServiceImpl.getPosts(username, title, map);
+    public ResponseEntity<PostDto[]> getPosts(@RequestParam(required = false) String username, @RequestParam(required = false) String userId, @RequestParam(required = false) String title, @RequestParam(required = false) String map) {
+        Post[] posts = unauthorizedPostServiceImpl.getPosts(username, userId, title, map);
         return ResponseEntity.ok().body(modelMapper.map(posts, PostDto[].class));
     }
 

@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, String> {
     @Query("SELECT p FROM Post p WHERE " +
-            "(:username IS NULL OR LOWER(p.user.usertag) LIKE LOWER(CONCAT('%', :username, '%'))) AND " +
-            "(:title IS NULL OR LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))) AND " +
-            "(:map IS NULL OR p.from.map.id = :map)")
-    List<Post> findPostByCriteria(String username, String title, String map);
+            "(LOWER(p.user.usertag) LIKE CONCAT('%', LOWER(:username), '%') OR :username IS NULL) AND " +
+            "(LOWER(p.title) LIKE CONCAT('%', LOWER(:title), '%') OR :title IS NULL) AND " +
+            "(:map IS NULL OR p.from.map.id = :map) AND" +
+            "(:userId IS NULL OR p.user.id = :userId)")
+    List<Post> findPostByCriteria(String username, String userId, String title, String map);
 }

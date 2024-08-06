@@ -11,8 +11,8 @@ public class UnauthorizedPostServiceImpl {
 
     private final PostRepository postRepository;
 
-    public Post[] getPosts(String username, String title, String map) {
-        return postRepository.findPostByCriteria(username, title, map).toArray(Post[]::new);
+    public Post[] getPosts(String username, String userId, String title, String map) {
+        return postRepository.findPostByCriteria(username, userId, title, map).toArray(Post[]::new);
     }
 
     public Post getPost(String id) {
