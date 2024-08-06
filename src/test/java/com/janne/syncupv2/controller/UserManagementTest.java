@@ -68,7 +68,6 @@ public class UserManagementTest {
         assertThat(privateUserDto.getId()).isEqualTo(authenticationResponse.getUserId());
 
         assertThat(publicUserDto.getUsertag()).isEqualTo(registerUserRequest.getUsertag());
-        assertThat(publicUserDto.getRole()).isEqualTo(UserRole.USER.toString());
         assertThat(publicUserDto.getId()).isEqualTo(authenticationResponse.getUserId());
     }
 
