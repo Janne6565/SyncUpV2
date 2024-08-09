@@ -98,6 +98,7 @@ public class LocalImageUploadService implements ImageUploadService {
                 .thumbnailUrl(buildAbsolutePath(uploadResponse.getThumbnailUrl()))
                 .fullScaleUrl(buildAbsolutePath(uploadResponse.getFullSizeUrl()))
                 .uploadService(getUploadServiceName())
+                .format(imageScaleFormat)
                 .build();
     }
 

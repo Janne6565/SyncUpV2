@@ -3,6 +3,7 @@ package com.janne.syncupv2.adapter;
 import com.janne.syncupv2.model.dto.incomming.externalApi.valorantApi.maps.ValorantApiMapDto;
 import com.janne.syncupv2.model.jpa.post.Map;
 import com.janne.syncupv2.model.jpa.util.ScaledImage;
+import com.janne.syncupv2.service.images.ImageScaleFormat;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,7 @@ public class TestMapAdapter {
                 .thumbnailUrl("thumbnail://" + url)
                 .deleteFullScaleToken("fullScaleDeletion://" + url)
                 .deleteThumbnailToken("thumbnailDeletion://" + url)
+                .format(ImageScaleFormat.FULL_SCREEN)
                 .build();
     }
 

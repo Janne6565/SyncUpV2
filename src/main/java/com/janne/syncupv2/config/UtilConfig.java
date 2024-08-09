@@ -2,11 +2,14 @@ package com.janne.syncupv2.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.janne.syncupv2.model.dto.outgoing.util.SpotDto;
+import com.janne.syncupv2.model.jpa.post.Spot;
 import com.janne.syncupv2.service.externalApi.imgur.ImgurConfig;
 import com.janne.syncupv2.service.externalApi.localImageService.LocalImageUploadService;
 import com.janne.syncupv2.service.images.ImageUploadService;
 import okhttp3.OkHttpClient;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +28,14 @@ public class UtilConfig {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.addMappings(new PropertyMap<Spot, SpotDto>() {
+            @Override
+            protected void configure() {
+                map().setMapId(source.getMap().getId());
+            }
+        });
+        return modelMapper;
     }
 
     @Bean

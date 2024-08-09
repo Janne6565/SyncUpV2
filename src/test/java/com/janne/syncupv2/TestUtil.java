@@ -32,7 +32,7 @@ public class TestUtil {
                 .header("Authorization", "Bearer " + authToken));
     }
 
-    public static @NotNull ResultActions getUnauthorizedUserDetails(@NotNull MockMvc mockMvc, Integer userId) throws Exception {
+    public static @NotNull ResultActions getUnauthorizedUserDetails(@NotNull MockMvc mockMvc, String userId) throws Exception {
         return mockMvc.perform(get(UNAUTHORIZED_BASE_PATH + "/user/" + userId)
                 .contentType(MediaType.APPLICATION_JSON));
     }

@@ -18,6 +18,7 @@ application:
   security:
     jwt:
       expiration: 86400000 # a day
+      secret-key: e5354babb1174ae24fdb6ae3cb15ce6e1e3508f49932c92dc356c67230c67210
       refresh-token:
         expiration: 2592000000 # a month
 external:
@@ -25,15 +26,21 @@ external:
     localImageService:
       endpoint: "http://localhost:8081"
       authToken: "test1234"
-      hostedPrefix: "http://localhost:8081/images"
+      hostedPrefix: "http://localhost/images"
     valorant:
       endpoint: https://valorant-api.com/v1/
     imgur:
-        endpoint: https://api.imgur.com/3/image
-        thumbnail-postfix: m # These are all valid options for the specified resolutions:
-          # s: (90x90)
-          # b: (160x160)
-          # t: (160x160)
-          # m: (320x320)
-          # l: (640x640)
-          # h: (1024x1024)
+      endpoint: https://api.imgur.com/3/image
+      thumbnail-postfix: m # These are all valid options for the specified resolutions:
+        # s: (90x90)
+        # b: (160x160)
+        # t: (160x160)
+        # m: (320x320)
+        # l: (640x640)
+      # h: (1024x1024)
+      client-id: imgurclientid
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

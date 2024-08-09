@@ -19,7 +19,7 @@ public class UnauthorizedUserServiceImpl implements UnauthorizedUserService {
     private final ModelMapper modelMapper;
 
     @Override
-    public PublicUserDto getUser(Integer id) throws RequestException {
+    public PublicUserDto getUser(String id) throws RequestException {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw RequestException.builder()

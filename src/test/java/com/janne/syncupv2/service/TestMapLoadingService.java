@@ -6,6 +6,7 @@ import com.janne.syncupv2.model.dto.incomming.externalApi.valorantApi.maps.Valor
 import com.janne.syncupv2.model.jpa.post.Map;
 import com.janne.syncupv2.model.jpa.util.ScaledImage;
 import com.janne.syncupv2.service.externalApi.valorantApi.ValorantApiService;
+import com.janne.syncupv2.service.images.ImageScaleFormat;
 import com.janne.syncupv2.service.maps.MapLoaderService;
 import com.janne.syncupv2.service.maps.MapService;
 import lombok.SneakyThrows;
@@ -24,7 +25,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 
-@TestPropertySource(properties = "spring.task.scheduling.enabled=false")
+@TestPropertySource(locations = "file:application-test.yml")
 @ExtendWith(MockitoExtension.class)
 public class TestMapLoadingService {
 
@@ -50,6 +51,7 @@ public class TestMapLoadingService {
                 .thumbnailUrl(thumbnailScaleImagePrefix + imageUrl)
                 .deleteFullScaleToken("fullScaleDeletion://" + imageUrl)
                 .deleteThumbnailToken("thumbnailDeletion://" + imageUrl)
+                .format(ImageScaleFormat.FULL_SCREEN)
                 .build();
     }
 
