@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +67,7 @@ public class AuthorizedPostServiceImpl {
     }
 
     private void assertPostOwnership(User authenticatedUser, Post post) {
-        if (authenticatedUser.getId() != post.getUser().getId() && !authenticatedUser.getRole().getPermissions().contains(Permission.ADMIN_UPDATE)) {
+        if (!Objects.equals(authenticatedUser.getId(), post.getUser().getId()) && !authenticatedUser.getRole().getPermissions().contains(Permission.ADMIN_UPDATE)) {
             throw RequestException.builder()
                     .errorObject(post)
                     .message("Unable to update post which isn't your own")
